@@ -1,15 +1,592 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Marketing Dashboard</title>
+    <!--mixpanel platform -->
     <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/css/reset.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.css">
-    <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
-  </head>
-  <body class="mixpanel-platform-body">
-    <h1>Hello, World!</h1>
-    <script>
-      // Run queries and display results here
+    <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script> <!--/mixpanel platform -->
+
+    <!--tether for tooltips-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.3.1/js/tether.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript Bootstrap-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+
+    <!-- tablesorter plugin -->
+    <link rel="stylesheet" type="text/css" href="js/tablesorter-master/themes/blue/style.css">
+    <script type="text/javascript" src="js/tablesorter-master/jquery.tablesorter.js"></script>
+    <script type="text/javascript" src="js/tablesorter-master/jquery.tablesorter.widgets.js"></script>
+    <!-- tablesorter pager plugin -->
+    <link rel="stylesheet" type="text/css" href="js/tablesorter-master/addons/pager/jquery.tablesorter.pager.css">
+    <script type="text/javascript" src="js/tablesorter-master/addons/pager/jquery.tablesorter.pager.js"></script>
+    <!-- csv export source: http://www.jqueryscript.net/table/jQuery-Plugin-To-Convert-HTML-Table-To-CSV-tabletoCSV.html-->
+    <script src="js/jquery.tabletoCSV.js"></script>
+
+    <!--font awesome icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+
+    <!--custom styles-->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- initialize second lib so that we can track when a user changes campaign spend-->
+<!--     <script type="text/javascript">
+
+      mixpanel.init("63984281bbf4193be761f9f9ff8592a5", {}, "client_project");
     </script>
+  -->
+  </head>
+
+  <body class="mixpanel-platform-body">
+    <div class="container-fluid" id='pannel-container'>
+      <div class="row">
+          <div class="col-sm-3 col-sm-6">
+              <div class="panel panel-mpblue">
+                  <div class="panel-heading">
+                      <div class="row">
+                          <div class="col-xs-3">
+                              <i class="fa fa-users fa-4x" aria-hidden="true"></i>
+                          </div>
+                          <div class="col-xs-9 text-right">
+                              <div class="huge" id="dau-header">0</div>
+                              <div class="panel-text">Daily Active Users Today</div>
+                          </div>
+                      </div>
+                  </div>
+                  <a href="#">
+                      <div class="panel-footer panel-footer-dau">
+                          <span class="pull-left">View Details</span>
+                          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                          <div class="clearfix"></div>
+                      </div>
+                  </a>
+              </div>
+          </div>
+          <div class="col-sm-3 col-sm-6">
+              <div class="panel panel-mpblue">
+                  <div class="panel-heading">
+                      <div class="row">
+                          <div class="col-xs-3">
+                              <i class="fa fa-line-chart fa-4x" aria-hidden="true"></i>
+                          </div>
+                          <div class="col-xs-9 text-right">
+                              <div class="huge" id="mau-header">0</div>
+                              <div class="panel-text">Monthly Active Users</div>
+                          </div>
+                      </div>
+                  </div>
+                  <a href="#">
+                      <div class="panel-footer panel-footer-mau">
+                          <span class="pull-left">View Details</span>
+                          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                          <div class="clearfix"></div>
+                      </div>
+                  </a>
+              </div>
+          </div>
+          <div class="col-sm-3 col-sm-6">
+              <div class="panel panel-mpblue">
+                  <div class="panel-heading">
+                      <div class="row">
+                          <div class="col-xs-3">
+                              <i class="fa fa-shopping-cart fa-4x"></i>
+                          </div>
+                          <div class="col-xs-9 text-right">
+                              <div class="huge" id="revenue-header">0</div>
+                              <div class="panel-text">Revenue Today</div>
+                          </div>
+                      </div>
+                  </div>
+                  <a href="#">
+                      <div class="panel-footer panel-footer-revenue">
+                          <span class="pull-left">View Details</span>
+                          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                          <div class="clearfix"></div>
+                      </div>
+                  </a>
+              </div>
+          </div>
+          <div class="col-sm-3 col-sm-6">
+              <div class="panel panel-mpblue">
+                  <div class="panel-heading">
+                      <div class="row">
+                          <div class="col-xs-3">
+                              <i class="fa fa-bar-chart fa-4x" aria-hidden="true"></i>
+                          </div>
+                          <div class="col-xs-9 text-right">
+                              <div class="huge" id="avg-events">0</div>
+                              <div class="panel-text">Daily Events Per User</div>
+                          </div>
+                      </div>
+                  </div>
+                  <a href="#">
+                      <div class="panel-footer panel-footer-avg-events">
+                          <span class="pull-left">View Details</span>
+                          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                          <div class="clearfix"></div>
+                      </div>
+                  </a>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="container-fluid p-t-2" id='tables-and-charts'>
+      <div class='row' id='headers'>
+        <div class="col-sm-6">
+          <h4 class="text-center  text-muted" id="dau-chart-header" style="display: none"><u>Daily Active Users</u></h4>
+        </div>
+        <div class="col-sm-6">
+          <h4 class="text-center text-muted" id="mau-chart-header" style="display: none"><u>Monthly Active Users</u></h4>
+        </div>
+      </div>
+      <div class='row'>
+        <div class="col-sm-6">
+          <div id='dau-chart'></div>
+        </div>
+        <div class="col-sm-6">
+          <div id='mau-chart'></div>
+        </div>
+      </div>
+      <!-- title header button row -->
+      <div class="row">
+        <div class="col-sm-12">
+          <h4 class="text-center text-muted" id="marketing-table-header" style="display: none;"><u>Campaign ROI</u></h4>
+        </div>
+        <div class="row" id="loading-container">
+          <div class="center-block text-center">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+      <!-- export button row -->
+      <div class="row">
+        <div class="col-sm-12">
+          <button class="export-button clearfix pull-right" id="export" data-export="export" style="display:none;">Export Table</button>
+        </div>
+      </div><!--  end export button row -->
+      <div class="row" id="table">   <!-- start marketing table -->
+        <div class="col-sm-12 m-t-4 clearfix marketing-div">
+          <table class="table table-bordered tablesorter" id="marketing-table">
+          </table>
+        </div>
+      </div> <!-- end marketing table-->
+      <div class="row">  <!-- start of edit table and page selectors -->
+        <div class="clearfix col-sm-12" id='selectors'>  <!-- start of table editor selectors -->
+          <div class="clearfix pull-left" id="table-edit-section"style="padding-top: 11px">
+            <div id="table-edit"  style="display:none"><button class="btn edit-table-btn" id="table-edit-button">Edit Table Events</button></div>
+            <div class="col-sm-6 text-uppercase text-muted " id="selector-text" style="display:none"><u><b>Event to remove:</b></u></div>
+            <div class="col-sm-6" id="new-event" style="display:none;"></div>
+          </div> <!-- end of table editor selectors -->
+          <div class="dropdown" style="display: none">   <!-- start pager controls -->
+            <div id="pager" class="pager clearfix pull-right">
+              <form id="pager-controls">
+                <i class="first table-control fa fa-fast-backward" aria-hidden="true" id="table-controls" style="padding-top: 2px;"></i>
+                <i class="prev fa fa-step-backward" aria-hidden="true" id="table-controls"></i>
+                <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
+                <i class="next fa fa-step-forward" aria-hidden="true" id="table-controls"></i>
+                <i class="last fa fa-fast-forward" aria-hidden="true" id="table-controls"></i>
+                <select class="pagesize mp-button">
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="30">30</option>
+                  <option value="50">50</option>
+                  <option value="all">All Rows</option>
+                </select>
+              </form>
+            </div>
+          </div> <!-- end pager controls -->
+        </div> <!-- end of edit table and page selectors -->
+      </div> <!-- end of edit table and page selectors container row-->
+      <div class="row" id="headers">
+          <div class="col-sm-12">
+            <h4 class="text-center text-muted" id="avg-campaign-header" style="display: none;"><u>Avg. Events Per User By Campaign</u></h4>
+          </div>
+        </div>
+      <div class="row">
+          <div class="col-sm-12">
+            <div id='events-per-user-per-campaign-chart'></div>
+          </div>
+        </div>
+      <div class="row" id="headers">
+          <div class="col-sm-12">
+            <h4 class="text-center text-muted" id="avg-per-user-header" style="display: none;"><u>Avg. Events Per User</u></h4>
+          </div>
+        </div>
+      <div class="row">
+          <div class="col-sm-12">
+            <div id='avg-events-per-user-per-day-chart'></div>
+          </div>
+        </div>
+      <div class="row" id="headers">
+          <div class="col-sm-12">
+            <h4 class="text-center text-muted" id="bounce-rate-header" style="display: none;"><u>Campaign Bounce Rate</u></h4>
+          </div>
+        </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div id='campaign-bounce-rate'></div>
+        </div>
+      </div>
+    </div>
+    <!--dialogue modal for entering revenue-->
+    <div class="modal fade" id="revenue-modal"><!--.modal -->
+      <div class="modal-dialog" role="document"><!--.modal-dialog -->
+        <div class="modal-content"><!--.modal-content -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title text-center">Edit Campaign Spend</h4>
+          </div>
+          <div class="modal-body">
+            <p class="text-muted text-uppercase"><b>Campaign Amount: </b><input type="text" name="Enter Campaign spend" id='campaign-spend-input'></p>
+          </div>
+          <div class="modal-footer">
+            <div class="col-xs-6">
+              <p class="text-muted text-center bottom-align-text" style="font-size: 8px"><i>In order for changes to table to be saved you must save the full dashboard at the bottom of the page</i></p>
+            </div>
+            <button type="button" class="btn close-btn" data-dismiss="modal">Close</button>
+            <button type="button" class="btn save-btn" data-dismiss="modal" id="camp-spend-modal-save">Update Spend</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <!--dialogue modal for universal saving-->
+    <div class="modal fade" id="save-all-modal"><!--dialogue modal for universal saving-->
+      <div class="modal-dialog" role="document"><!--.modal-dialog -->
+        <div class="modal-content"><!--.modal-content -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title text-center">Save Dashboard</h4>
+          </div>
+          <div class="modal-body">
+            <p class="text-muted text-uppercase"><b>Project Token: </b><input type="text" name="Enter Project Token" id='project-token-input'></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn save-btn" data-dismiss="modal" id="save-all-confirm">Save changes</button>
+            <button type="button" class="btn close-btn" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!--end dialogue modal for universal saving-->
+    <br>
+    <div class="row">
+      <div class="col-sm-12 m-t-2">
+        <button type="button" name="button" class="mp-button" id="save-all">Save</button>
+      </div>
+    </div>
+    <!-- space for some global variables -->
+    <script type="text/javascript">
+      //set a global object to store all graphing data to be sent later
+      var savedData = {}
+      //global var to store entered campaign spend from marketing table
+      var campaignAmount
+      //global var to store campaign being edited from marketing table
+      var campaignEdited
+      //global for store data that needs to be saved
+      var queuedDataForSaving =[]
+      //global placeholder to push changes into queuedDataForSaving array
+      var changeDetails
+    </script>
+    <!-- enable saving of the dashboard-->
+    <script type="text/javascript" src="js/saveAll.js"></script>
+    <!-- enable editing of the campaign spend section of the marketing table-->
+    <script type="text/javascript" src="js/editRevenue.js"></script>
+    <!-- enable linking out to mixpanel reports -->
+    <script type="text/javascript" src="js/linkOuts.js"></script>
+    <!-- helper functions includes addCommas, and graphValues-->
+    <script type="text/javascript" src="js/helperFunctions.js"></script>
+    <!-- web only top events query jql -->
+    <script id="jql-top-web-events">
+      var d = new Date();
+      d.setMonth(d.getMonth() - 1);
+      var aMonthAgo = new Date(d).toISOString().split("T")[0]
+      var today = new Date().toISOString().split("T")[0]
+
+      function main() {
+        return Events({
+          from_date: aMonthAgo,
+          to_date:   today
+        })
+        .filter(function(item){
+          if(item.properties.mp_lib === 'web'){
+            return item
+          }
+        })
+        .groupBy(["name"], mixpanel.reducer.count())
+        .reduce(mixpanel.reducer.top(5));
+      }
+    </script>
+    <!-- dau jql script -->
+    <script id="jql-dau-active-users">
+      /* ========================================================
+       * Monthly active users
+       * How many users sent any event in a given month?
+       */
+      var today = Math.round(new Date().getTime())
+      var date = new Date().toISOString().split('T')[0]
+
+      var d = new Date();
+      d.setMonth(d.getMonth() - 1);
+      var aMonthAgo = new Date(d).toISOString().split("T")[0]
+      params = {
+        "startDate":aMonthAgo,
+        "endDate": date
+      }
+
+      function main() {
+        return Events({
+          from_date: params.startDate,
+          to_date: params.endDate
+        })
+        // group each user's events by the day they were triggered,
+        // and count how many events they sent each day
+        .groupByUser([getDay], function(count, events) {
+          count = count || 0;
+          return count + events.length;
+        })
+        //filter out days where a user sent < 2 events
+        .filter(function(user_count) {
+          return user_count.value >= 2;
+        })
+        .groupBy(["key.1"], mixpanel.reducer.count());
+      }
+
+      function getDay(event) {
+        return new Date(event.time).toISOString().substr(0, 10);
+      }
+    </script>
+    <!-- jql script for MAU this month, used in marketingTable.js -->
+    <script id="monthly-active-users">
+      /* ========================================================
+       * Monthly active users
+       * How many users sent 2 or more events in a given month?
+       */
+
+      var today = new Date().toISOString().split('T')[0]
+
+      var a = new Date();
+      var sixMonths = new Date(a.getFullYear(), a.getMonth()-5, 1).toISOString().split('T')[0];
+      params = {
+        "startDate":sixMonths,
+        "endDate": today
+      }
+
+      function main() {
+        return Events({
+          from_date: params.startDate,
+          to_date: params.endDate
+        })
+        // group each user's events by the day they were triggered,
+        // and count how many events they sent each day
+        .groupByUser([getMonth], function(count, events) {
+          count = count || 0;
+          return count + events.length;
+        })
+        //filter out days where a user sent < 2 events
+        .filter(function(user_count) {
+          return user_count.value >= 2;
+        })
+        .groupBy(["key.1"], mixpanel.reducer.count());
+      }
+
+      function getMonth(event) {
+        return new Date(event.time).toISOString().substr(0, 7);
+      }
+    </script>
+    <!-- jql script for revenue today -->
+    <script type="text/javascript" id='revenue-today-jql'>
+
+      var today = new Date().toISOString().split('T')[0]
+
+      function main() {
+          return Events({
+            from_date: today,
+            to_date:   today
+
+          })
+          .filter(function(event){
+            var type = event.properties["$revenue"]
+            type = typeof type
+            if (type === "number"){
+              return event
+            }
+          })
+          .reduce(mixpanel.reducer.sum(function(item){
+            return item.properties['$revenue']
+          }))
+        }
+    </script>
+    <!-- jql script for revenue by campaign -->
+    <script type="text/javascript" id='revenue-jql'>
+      var today = new Date().toISOString().split('T')[0]
+
+      var d = new Date();
+      d.setMonth(d.getMonth() - 1);
+      var aMonthAgo = new Date(d).toISOString().split("T")[0]
+
+      function main() {
+        return Events({
+          from_date: aMonthAgo,
+          to_date:   today
+
+        })
+        .filter(function(event){
+          //change this value to the property where revenue is stored
+          var type = event.properties["$revenue"]
+          type = typeof type
+          if (type === "number"){
+            return event
+          }
+        })
+        // change this value if your utm campaign params are different
+        .groupBy(["properties.utm_campaign"], mixpanel.reducer.sum(
+            function(event){
+              //change this value to the property where revenue is stored
+              if(event.properties["utm_campaign"] !== "undefined"){
+                return event.properties["$revenue"]
+              }
+            }
+          ))
+      }
+    </script>
+    <!-- jql for events by campaign by user -->
+    <script type="text/javascript" id="events-per-user-per-campaign-jql">
+      var today = new Date().toISOString().split('T')[0]
+
+      var a = new Date();
+      var d = new Date();
+      d.setMonth(d.getMonth() - 1);
+      var aMonthAgo = new Date(d).toISOString().split("T")[0]
+
+      function main() {
+        return Events({
+          from_date: aMonthAgo,
+          to_date:   today
+        })
+        .groupByUser([utm], function(state, events) {
+          state = state || 0;
+          _.each(events, function(event) {state++;});
+          return state;
+        })
+        .filter(function(item){
+          if (item.key[1] !== null){
+            return item
+          }
+        })
+        .groupBy([item => item.key[1]],mixpanel.reducer.numeric_summary(state => state.value))
+      }
+
+      function getDay(event) {
+        return new Date(event.time).toISOString().substr(0, 10);
+      }
+      function utm(event){
+        return event.properties.utm_campaign
+      }
+    </script>
+    <!-- jql for events by user by user -->
+    <script type="text/javascript" id="events-per-user-by-day-jql">
+      var today = new Date().toISOString().split('T')[0]
+
+      var a = new Date();
+      var d = new Date();
+      d.setMonth(d.getMonth() - 1);
+      var aMonthAgo = new Date(d).toISOString().split("T")[0]
+
+      function main() {
+        return Events({
+          from_date: aMonthAgo,
+          to_date:   today
+        })
+        .groupByUser([getDay], function(state, events) {
+          state = state || 0;
+          _.each(events, function(event) {state++;});
+          return state;
+        })
+        .groupBy([item => item.key[1]],mixpanel.reducer.numeric_summary(state => state.value))
+      }
+
+      function getDay(event) {
+        return new Date(event.time).toISOString().substr(0, 10);
+      }
+    </script>
+    <!-- jql for events by campaign by user by day -->
+    <script type="text/javascript" id="events-per-user-per-campaign-by-day-jql">
+      var today = new Date().toISOString().split('T')[0]
+
+      var a = new Date();
+      var d = new Date();
+      d.setMonth(d.getMonth() - 1);
+      var aMonthAgo = new Date(d).toISOString().split("T")[0]
+
+      function main() {
+        return Events({
+          from_date: aMonthAgo,
+          to_date:   today
+        })
+        .groupByUser([utm, getDay], function(state, events) {
+          state = state || 0;
+          _.each(events, function(event) {state++;});
+          return state;
+        })
+        .filter(function(item){
+          if (item.key[1] !== null){
+            return item
+          }
+        })
+        .groupBy([item => item.key[1],item => item.key[2]],mixpanel.reducer.numeric_summary(state => state.value))
+      }
+
+      function getDay(event) {
+        return new Date(event.time).toISOString().substr(0, 10);
+      }
+      function utm(event){
+        return event.properties.utm_campaign
+      }
+    </script>
+    <!--jql query to get saved campaign spends-->
+    <script type="text/javascript" id="saved-campaign-spend">
+      var today = new Date().toISOString().split('T')[0]
+
+      var a = new Date();
+      var sixMonths = new Date(a.getFullYear(), a.getMonth()-5, 1).toISOString().split('T')[0];
+      function main() {
+        return Events({
+          from_date: sixMonths,
+          to_date:   today,
+          event_selectors: [{event:'campaign_spend_entered'}]
+        })
+      }
+    </script>
+    <!-- dua graphing-->
+    <script type="text/javascript" src="js/dauGraphing.js"></script>
+    <!-- mau graphing -->
+    <script type="text/javascript" src="js/mauGraphing.js"></script>
+    <!-- revenue today graphing in header pannel-->
+    <script type="text/javascript" src="js/revenueHeader.js"></script>
+    <!-- marketing table graph -->
+    <script type="text/javascript" src="js/marketingTable.js"></script>
+    <!-- link to avg events per user per campaign per day graphing -->
+    <script type="text/javascript" src="js/avgEventsPerCampaingGraphing.js"></script>
+    <!-- avg events per user per day graphing -->
+    <script type="text/javascript" src="js/avgEventsPerUserPerDay.js"></script>
+    <!-- link to enable changing of events in table -->
+    <script type="text/javascript" src="js/tableEdit.js"></script>
+    <!-- bounce rates by campaign graphing-->
+    <script type="text/javascript" src="js/bounceRatesByCampaign.js"></script>
   </body>
 </html>

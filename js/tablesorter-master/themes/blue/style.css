@@ -1,0 +1,69 @@
+/* tables */
+table.tablesorter {
+	background-color: #F7FAFC;
+	margin:10px 0pt 15px;
+	font-size: 10pt;
+	width: 100%;
+	text-align: left;
+	min-width: 50px;
+	color:#838ca2;
+}
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+	background-color: #edeff5;
+	background-image: linear-gradient(#f2f4f9,#e5e8ef);
+	font-weight: bold;
+	text-shadow: 0 1px #fff;
+	border: 1px solid #FFF;
+	font-size: 10pt;
+	font-size: 1vw;;
+	padding: 4px;
+	text-align: left;
+	vertical-align: middle;
+	border-radius: 5px 5px 0 0;
+	border-bottom: 1px solid #bfcfda;
+	color: #838ca2;
+	padding-right: 10px;
+
+}
+table.tablesorter thead tr .header {
+	background-image: url(bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+	min-width: 50px;
+}
+table.tablesorter thead tr .tablesorter-headerAsc {
+	background-image: url(asc.gif);
+	background-repeat: no-repeat;
+	background-position: right center;
+
+}
+table.tablesorter thead tr .tablesorter-headerDesc {
+	background-image: url(desc.gif);
+	background-repeat: no-repeat;
+	background-position: right center;
+
+}
+table.tablesorter thead tr .tablesorter-headerDesc, table.tablesorter thead tr .tablesorter-headerAsc {
+	background-color: linear-gradient(#E7B7C5,#8E9BB8);
+}
+/*#header-row{
+	color: white;
+}*/
+#column-campaign-spends{
+	cursor: pointer;
+}
+tr:hover{
+    background-color: #E1E1E2;
+    background-color: linear-gradient(#E7B7C5,#8E9BB8);
+}
+th:hover{
+    background-color: #edeff5;
+	background-image: linear-gradient(#f2f4f9,#e5e8ef);
+}
+.remove-me{
+    display: none;
+}
+.table-data{
+	text-align: center;
+}
